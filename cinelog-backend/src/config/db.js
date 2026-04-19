@@ -8,10 +8,11 @@ const pool = mysql.createPool({
   port: process.env.DB_PORT || 3306,
   waitForConnections: true,
   connectionLimit: 10,
+  ssl: { rejectUnauthorized: false }
 });
 
 pool.getConnection()
-  .then(() => console.log('✅ Conectado a MySQL'))
+  .then(conn => { console.log('✅ Conectado a MySQL'); conn.release(); })
   .catch(err => console.error('❌ Error MySQL:', err.message));
 
 export default pool;
